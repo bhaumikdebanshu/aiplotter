@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="">{% block title %} Responses so far {% endblock %}</h1>
+    <div class="">
+        {% for answer in answers %}
+            <div class="">
+                <p>Response# {{ answer.id }} | <b> {{ answer.answerText }}</b></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
