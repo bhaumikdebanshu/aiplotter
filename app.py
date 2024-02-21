@@ -16,15 +16,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+app_mode = 'test'
+
 def emotional_analysis(text):
-    # Load the emotion analysis pipeline
-    emotion_pipeline = pipeline("text-classification", model="bhadresh-savani/distilbert-base-uncased-emotion", return_all_scores=True)
-    
-    # Perform emotion analysis
+    emotion_pipeline = pipeline("text-classification", model="ayoubkirouane/BERT-Emotions-Classifier", top_k=None)
     results = emotion_pipeline(text)
-    
-    # Convert the results to a dictionary with percentages
-    emotion_dict = {result['label']: round(result['score'] * 100, 2) for result in results[0]}
+    emotion_dict = {result['label']: round(result['score'] * 100, 3) for result in results[0]}
     
     return emotion_dict
 
@@ -36,7 +33,6 @@ class Answer(db.Model):
     def __repr__(self):
         return f'<Answer {self.id}>'
 
-
 @app.route('/')
 def responses():
     answers = Answer.query.all()
@@ -46,15 +42,16 @@ def responses():
 def entry():
     if request.method == 'POST':
         tempAnswer = request.form['response']
-        entry = Answer(answerText = tempAnswer)
 
-        emotion_percentages = emotional_analysis(entry.answerText)
+        emotion_percentages = emotional_analysis(tempAnswer)
         print(emotion_percentages)
+
+        entry = Answer(answerText = tempAnswer)
 
         db.session.add(entry)
         db.session.commit()
 
-        return redirect(url_for('printing'))
+        # return redirect(url_for('printing'))
     
     return render_template('entry.html')
 
