@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.sql import func
+from transformers import pipeline
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -14,6 +15,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] =\
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+def emotional_analysis(text):
+    # Load the emotion analysis pipeline
+    emotion_pipeline = pipeline("text-classification", model="bhadresh-savani/distilbert-base-uncased-emotion", return_all_scores=True)
+    
+    # Perform emotion analysis
+    results = emotion_pipeline(text)
+    
+    # Convert the results to a dictionary with percentages
+    emotion_dict = {result['label']: round(result['score'] * 100, 2) for result in results[0]}
+    
+    return emotion_dict
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +47,10 @@ def entry():
     if request.method == 'POST':
         tempAnswer = request.form['response']
         entry = Answer(answerText = tempAnswer)
+
+        emotion_percentages = emotional_analysis(entry.answerText)
+        print(emotion_percentages)
+
         db.session.add(entry)
         db.session.commit()
 
@@ -78,3 +95,6 @@ def printing():
     s.close()  
 
     return render_template('printing.html', answers = answers), {"Refresh" : "5; url= /entry"}
+
+if __name__ == '__main__':
+    app.run(debug=True)
