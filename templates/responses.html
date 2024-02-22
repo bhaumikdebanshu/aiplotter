@@ -1,12 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="">{% block title %} Responses so far {% endblock %}</h1>
-    <div class="">
-        {% for answer in answers %}
-            <div class="">
-                <p>Response# {{ answer.id }} | <b> {{ answer.answerText }}</b></p>
-            </div>
-        {% endfor %}
-    </div>
+<a href="{{ url_for('clear_responses') }}" class="btn btn-danger">Clear All Responses</a>
+<a href="{{ url_for('export_responses') }}" class="btn btn-primary">Export as CSV</a>
+
+<h1>{% block title %}Responses so far{% endblock %}</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Response ID</th>
+      <th>Prompt</th>
+      <th>Optimism</th>
+      <th>Joy</th>
+      <th>Fear</th>
+      <th>Anticipation</th>
+      <th>Love</th>
+      <th>Trust</th>
+      <th>Sadness</th>
+      <th>Pessimism</th>
+      <th>Surprise</th>
+      <th>Disgust</th>
+      <th>Anger</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for response in responses %}
+    <tr>
+      <td>{{ response.id }}</td>
+      <td>{{ response.answerText }}</td>
+      <td>{{ response.emotions.optimism }}</td>
+      <td>{{ response.emotions.joy }}</td>
+      <td>{{ response.emotions.fear }}</td>
+      <td>{{ response.emotions.anticipation }}</td>
+      <td>{{ response.emotions.love }}</td>
+      <td>{{ response.emotions.trust }}</td>
+      <td>{{ response.emotions.sadness }}</td>
+      <td>{{ response.emotions.pessimism }}</td>
+      <td>{{ response.emotions.surprise }}</td>
+      <td>{{ response.emotions.disgust }}</td>
+      <td>{{ response.emotions.anger }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
