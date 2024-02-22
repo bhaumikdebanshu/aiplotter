@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.sql import func
+from transformers import pipeline
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,6 +16,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+app_mode = 'test'
+
+def emotional_analysis(text):
+    emotion_pipeline = pipeline("text-classification", model="ayoubkirouane/BERT-Emotions-Classifier", top_k=None)
+    results = emotion_pipeline(text)
+    emotion_dict = {result['label']: round(result['score'] * 100, 3) for result in results[0]}
+    
+    return emotion_dict
+
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -22,7 +32,6 @@ class Answer(db.Model):
 
     def __repr__(self):
         return f'<Answer {self.id}>'
-
 
 @app.route('/')
 def responses():
@@ -33,11 +42,16 @@ def responses():
 def entry():
     if request.method == 'POST':
         tempAnswer = request.form['response']
+
+        emotion_percentages = emotional_analysis(tempAnswer)
+        print(emotion_percentages)
+
         entry = Answer(answerText = tempAnswer)
+
         db.session.add(entry)
         db.session.commit()
 
-        return redirect(url_for('printing'))
+        # return redirect(url_for('printing'))
     
     return render_template('entry.html')
 
@@ -78,3 +92,6 @@ def printing():
     s.close()  
 
     return render_template('printing.html', answers = answers), {"Refresh" : "5; url= /entry"}
+
+if __name__ == '__main__':
+    app.run(debug=True)
