@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 id="prompt" style="width: 100%">{% block title %} Prompt Question {% endblock %}</h1>
+    <h1 id="prompt-entry">{% block title %} Prompt Question {% endblock %}</h1>
     <form method="post">
         <p>
-        <label for="response">Enter your response</label>
-        <br>
-        <textarea name="response"
+        <label id="prompt-answer-label" for="response">ENTER YOUR RESPONSE</label>
+        <textarea id="answer-textarea" class="prompt-textarea"name="response"
                   placeholder="Be as elaborate as you can"
                   rows="15"
                   cols="60"
+                  onkeydown="pressed(event)"
+                  autofocus
                   ></textarea>
         </p>
+        <label id="prompt-help-label" for="response">Press enter to submit</label>
         <p>
-            <button type="submit">Submit</button>
+            <button style="display: none;" type="submit">Submit</button>
         </p>
     </form>
 {% endblock %}

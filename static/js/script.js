@@ -11,8 +11,17 @@ const prompts = [
     "What activities usually help improve your mood?",
   ];
 
-//   function getRandomPrompt() {
-    const randomIndex = Math.floor(Math.random() * prompts.length);
-    const promptElement = document.getElementById("prompt");
-    promptElement.innerHTML = prompts[randomIndex];
-//  }
+
+const randomIndex = Math.floor(Math.random() * prompts.length);
+const promptElement = document.getElementById("prompt-entry");
+promptElement.innerHTML = prompts[randomIndex];
+
+
+function pressed(e) {
+  // Has the enter key been pressed?
+  if ( (window.event ? event.keyCode : e.which) == 13) { 
+      // If it has been so, manually submit the <form>
+      document.forms[0].submit();
+  }
+  
+}
