@@ -3,17 +3,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jura">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <title>{% block title %} {% endblock %} - ai PLotter Application</title>      
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('responses') }}">Responses</a>
-        <a href="{{ url_for('entry') }}">Get Response</a>
+        <a style="color: white;" href="{{ url_for('responses') }}">Responses</a>
+        <a style="color: white;" href="{{ url_for('entry') }}">Get Response</a>
     </nav>
     <hr>
-    <div class="content">
+    <div class="content line wrapper" id="noise">
         {% block content %} {% endblock %}
     </div>
 

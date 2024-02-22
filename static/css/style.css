@@ -1,0 +1,96 @@
+body{
+    background-color: #181818;
+    margin: 0;
+    font-family: 'Jura', sans-serif;
+}
+
+  
+
+#prompt-entry{
+    display: block;
+    text-align: left;
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    font-size: 24px;
+    width: 50vw;
+    color: #ff7041;
+    background-color: #ff704110;
+}
+
+#prompt-answer-label{
+    width: 50vw;
+    padding: 20px;
+    color: #ff7041;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-top: 1px solid #ff7041;
+    border-left: 1px solid #ff7041;
+    border-right: 1px solid #ff7041;
+    font-size : 12px;
+}
+
+.prompt-textarea{
+    display: block;
+    background: #121913;
+    border-left: 1px solid #ff7041;
+    border-radius: 0 0 25px 0;
+    border-right: 1px solid #ff7041;
+    border-bottom: 1px solid #ff7041;
+    border-top: 1px dashed #ff7041;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vw;
+    padding: 20px;
+    color: white;
+    font-size : 16px;
+    height : 200px;
+    line-height : 32px;
+}
+
+.prompt-textarea:focus-visible{
+    outline : none !important;
+    background : #ff704115;
+    line-height : 32px
+}
+
+#prompt-help-label{
+    width: 50vw;
+    padding: 20px;
+    color: #ff7041;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    /* border-top: 1px solid #ff7041;
+    border-left: 1px solid #ff7041;
+    border-right: 1px solid #ff7041; */
+    font-size : 14px;
+    background-color: #ff704110;
+}
+
+
+.wrapper{
+  /* position: relative; */
+  padding: 30px 40px;
+  max-width: 780px;
+  margin: 0 auto !important;
+  min-height: 70vh;
+  overflow: hidden;
+  
+  background-color: rgb(18, 27, 20);
+  background-image: linear-gradient(transparent 50%, rgba(10, 15, 8, 0.1) 50%), radial-gradient(transparent 65%, rgba(2, 10, 1, 0.6) 100%);
+  background-size: 15px, 100%;
+}
+
+.line{
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  background-size: 100vw 100vh;
+}
