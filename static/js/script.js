@@ -13,7 +13,7 @@ const prompts = [
 
 
 const randomIndex = Math.floor(Math.random() * prompts.length);
-const promptElement = document.getElementById("prompt-entry");
+const promptElement = document.getElementById("prompt-question");
 promptElement.innerHTML = prompts[randomIndex];
 
 

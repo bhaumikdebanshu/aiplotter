@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 id="prompt-entry">{% block title %} Prompt Question {% endblock %}</h1>
+<div id="form-container">
+    <h1 id="prompt-question" class="prompt-entry">{% block title %} Prompt Question {% endblock %}</h1>
     <form method="post">
         <p>
-        <label id="prompt-answer-label" for="response">ENTER YOUR RESPONSE</label>
+        <label class="prompt-answer-label" for="response">ENTER YOUR RESPONSE</label>
         <textarea id="answer-textarea" class="prompt-textarea"name="response"
                   placeholder="Be as elaborate as you can"
                   rows="15"
@@ -18,4 +19,5 @@
             <button style="display: none;" type="submit">Submit</button>
         </p>
     </form>
+</div>
 {% endblock %}
