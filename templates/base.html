@@ -9,12 +9,11 @@
     <title>{% block title %} {% endblock %} - ai PLotter Application</title>      
 </head>
 <body>
-    <nav>
-        <a style="color: white;" href="{{ url_for('responses') }}">Responses</a>
-        <a style="color: white;" href="{{ url_for('entry') }}">Get Response</a>
+    <nav style="position: relative; width: 100%; height: 40px;">
+        <a style="color: white; margin: 20px; display: inline-block;" href="{{ url_for('responses') }}">Responses</a>
+        <a style="color: white; margin: 20px; display: inline-block;" href="{{ url_for('entry') }}">Get Response</a>
     </nav>
-    <hr>
-    <div class="content line wrapper" id="noise">
+    <div class="line wrapper">
         {% block content %} {% endblock %}
     </div>
 
