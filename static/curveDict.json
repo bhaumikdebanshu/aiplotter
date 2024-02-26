@@ -1,0 +1,178 @@
+{
+    "optimism": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "1.0265**x",
+        "bounds": [
+            [
+                0,
+                170
+            ],
+            [
+                -100,
+                100
+            ]
+        ]
+    },
+    "joy": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "(0.3 * (50 - abs(((x-75)/10.5)**2)))**(1/0.7)",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "anticipation": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "0.3*x",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "trust": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "np.minimum(6.25*x, np.where(6.25*(150-x) < 50, 6.25*(150-x), 50))",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "love": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "25*np.sin(x/24)",
+        "bounds": [
+            [
+                -150,
+                150
+            ],
+            [
+                -25,
+                25
+            ]
+        ]
+    },
+    "fear": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "-abs((100/np.pi) * np.arcsin(np.sin(np.pi * x / 150)))",
+        "bounds": [
+            [
+                -150,
+                0
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "pessimism": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "-1.0265**x",
+        "bounds": [
+            [
+                -150,
+                170
+            ],
+            [
+                -100,
+                100
+            ]
+        ]
+    },
+    "sadness": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "-(0.3 * (50 - abs(((x-75)/10.5)**2)))**(1/0.7)",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "anger": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "(50/np.pi) * np.arcsin(np.sin(np.pi * x / 25))",
+        "bounds": [
+            [
+                -50,
+                50
+            ],
+            [
+                -25,
+                25
+            ]
+        ]
+    },
+    "disgust": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "-np.minimum(6.25*x, np.where(6.25*(150-x) < 50, 6.25*(150-x), 50))",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -50,
+                50
+            ]
+        ]
+    },
+    "surprise": {
+        "inputVars": [
+            "x"
+        ],
+        "function": "(25*6.8*1.9*(75-x))/((75-x)**2 + 6.8**2)",
+        "bounds": [
+            [
+                0,
+                150
+            ],
+            [
+                -25,
+                25
+            ]
+        ]
+    }
+}
