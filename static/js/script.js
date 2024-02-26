@@ -18,10 +18,22 @@ promptElement.innerHTML = prompts[randomIndex];
 
 
 function pressed(e) {
-  // Has the enter key been pressed?
   if ( (window.event ? event.keyCode : e.which) == 13) { 
-      // If it has been so, manually submit the <form>
+      document.getElementById('modal-background-id').style.display = "block";
+      document.getElementById("modal-container").style.display = "block";
       document.forms[0].submit();
+      document.getElementById('answer-textarea').disabled= 'true';
   }
+
+
   
 }
+
+const heading = document.getElementById("modal-heading-text");
+setInterval(function() {
+  if (heading.innerHTML === "Drawing") {
+    heading.innerHTML = "Analyzing";
+  } else {
+    heading.innerHTML = "Drawing";
+  }
+}, 2000);
