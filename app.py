@@ -22,6 +22,8 @@ app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+plotter_endpoint = '/dev/cu.usbmodem101'
+plotter_port = 115200
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
@@ -135,6 +137,27 @@ def get_curve(emotions, curveDict, w=770, h=2290):
 
     return X, Y
 
+def is_plotter_connected():
+    try:
+        s = serial.Serial(plotter_endpoint, plotter_port)
+        s.close()
+        return True
+    except:
+        return False
+
+def is_plotter_ready():
+    try:
+        s = serial.Serial(plotter_endpoint, plotter_port)
+        s.write(b"\r\n\r\n")
+        time.sleep(2)
+        s.flushInput()
+        s.write(b"$G\n")
+        grbl_out = s.readline()
+        s.close()
+        return grbl_out == b"ok\n"
+    except:
+        return False
+
 def generate_gcode(points, filename="output.gcode", feed_rate=1000):
     """
     Generate a GCode file from a set of points.
@@ -149,7 +172,8 @@ def generate_gcode(points, filename="output.gcode", feed_rate=1000):
         file.write("G21 ; Set units to mm\n")
         file.write("G90 ; Absolute positioning\n")
         
-        # Optionally, lift the pen up with G0 Z1.0 here if working with a pen plotter
+        # Pen down G1 Z50
+        file.write("G1 Z50\n")
         
         # Move to the starting point without drawing
         start_point = points[0]
@@ -161,7 +185,8 @@ def generate_gcode(points, filename="output.gcode", feed_rate=1000):
         for x, y in points[1:]:
             file.write(f"G1 X{x} Y{y} F{feed_rate}\n")
 
-        # Optionally, lift the pen up again at the end with G0 Z1.0
+        # Pen up G1 Z10
+        file.write("G1 Z10\n")
         
         # Footer or end commands can be added here
 
@@ -175,7 +200,8 @@ def gcode_wrapper(prompt, i):
     y = y + y2
 
     points = list(zip(x, y))
-    generate_gcode(points, f"static/output_{i}.gcode")
+    
+    generate_gcode(points, f"static/gcode/output_{i}.gcode")
 
 # Web Routes
 @app.route('/')
@@ -202,7 +228,7 @@ def entry():
 def printing():
     answers = Response.query.all()
     # Open grbl serial port
-    s = serial.Serial('/dev/cu.usbmodem101',115200)
+    s = serial.Serial(plotter_endpoint, plotter_port)
 
     # Open g-code file
     # f = open('/static/test.gcode','r')
