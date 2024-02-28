@@ -168,7 +168,7 @@ def printing():
     f.close()
     # plotter.close()  
 
-    return render_template('printing.html', responses = responses), {"Refresh" : "5; url= /entry"}
+    return render_template('printing.html', responses = responses), {"Refresh" : "45; url= /entry"}
 
 @app.route('/results/')
 def results():
