@@ -1,5 +1,7 @@
 db_reset                = True                          # Reset the database on start up
-plotter_endpoint        = "/dev/cu.usbmodem101"         # Serial port of the plotter
+plotter_endpoint_prod   = "/dev/cu.usbmodem101"         # Serial port of the plotter
+plotter_endpoint_test   = "COM4" 
+plotter_endpoint        = plotter_endpoint_test         # Serial port of the plotter
 plotter_baudrate        = 115200                        # Baud rate of the plotter
 canvas_dimensions       = (2150, 724)                   # Width and height of the canvas in mm 
 horizontal_resolution   = 1000                          # Number of steps in the horizontal direction (x-axis)

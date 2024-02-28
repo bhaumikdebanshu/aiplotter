@@ -84,7 +84,7 @@ def get_curve(emotions, curveDict, w=config.canvas_dimensions[0], h=config.canva
 
 def is_plotter_connected():
     try:
-        s = serial.Serial(config.plotter_endpoint, config.plotter_port)
+        s = serial.Serial(config.plotter_endpoint, config.plotter_baudrate)
         s.close()
         return True
     except Exception as e:
@@ -93,7 +93,7 @@ def is_plotter_connected():
 
 def is_plotter_ready():
     try:
-        s = serial.Serial(config.plotter_endpoint, config.plotter_port)
+        s = serial.Serial(config.plotter_endpoint, config.plotter_baudrate)
         s.write(b"\r\n\r\n")
         time.sleep(2)
         s.flushInput()

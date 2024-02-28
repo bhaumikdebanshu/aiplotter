@@ -102,9 +102,18 @@ def printer_test():
     # Open grbl serial port
     if request.method == 'POST':
         s = serial.Serial(plotter_endpoint, plotter_baudrate)
-        temp = "\r\n\r\n"
+        # Wake up grbl
+        temp = "\r\n\r\n" 
         s.write(temp.encode('ascii'))
         time.sleep(2)
+
+        # Send home command
+        s.write(b"$H\n".encode('ascii'))
+        time.sleep(5)
+
+        # Print log 
+        print(s.readline())
+
         s.flushInput()
         s.close()
         return redirect(url_for('entry'))
