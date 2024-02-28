@@ -175,7 +175,7 @@ def export_responses():
 # Example usage (comment out if you prefer to run these from the command line or another script)
 if __name__ == "__main__":
     # Create or reset the database
-    # reset_database()
+    reset_database()
     # add_sample_data()
 
     # Create static/gcode directory if it doesn't exist
