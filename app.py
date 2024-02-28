@@ -97,7 +97,10 @@ def entry():
         tempAnswer = request.form['response']
         emotion_percentages = artist.emotional_analysis(tempAnswer)
         print(emotion_percentages)
-        gcode_file = artist.gcode_wrapper(tempAnswer, 0)
+        # Get the last id from the database 
+        last_id = db.session.query(Response).order_by(Response.id.desc()).first().id if db.session.query(Response).count() > 0 else 0
+        new_id = last_id + 1 
+        gcode_file = artist.gcode_wrapper(tempAnswer, new_id)
         entry = Response(answerText=tempAnswer, emotions=emotion_percentages, gcode_path=gcode_file)
 
         db.session.add(entry)
