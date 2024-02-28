@@ -37,7 +37,7 @@ def get_sine_wave(i, w=config.canvas_dimensions[0], h=config.canvas_dimensions[1
         x = np.linspace(0, w, config.horizontal_resolution)
         period = np.interp(i, [0, h], [18, 36])
         # Create values for the y-axis
-        y = np.sin((x + i) / period) * 5 + (i * 5)
+        y = np.sin((x + i) / period) * 5 + (i * config.curve_spacing / 2)
         y.resize(config.horizontal_resolution)
         return x, y
     except Exception as e:
@@ -120,12 +120,15 @@ def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_r
         file.write("G90 ; Absolute positioning\n")
         
         # Pen down G1 Z50
-        file.write(f"G1 Z50 F{feed_rate_z}\n") if config.feed_rate_z else None
+        # file.write(f"G1 Z50 F{feed_rate_z}\n") if config.feed_rate_z else None
         
         # Move to the starting point without drawing
         start_point = points[0]
         file.write(f"G0 X{start_point[0]} Y{start_point[1]}\n")
-        
+
+        # Pen down G1 Z23
+        file.write(f"G1 Z23 F{feed_rate_z}\n") if config.feed_rate_z else None
+
         # Optionally, lower the pen down with G0 Z0.0 here if working with a pen plotter
 
         # Draw to each subsequent point
@@ -133,7 +136,7 @@ def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_r
             file.write(f"G1 X{x} Y{y} F{feed_rate_xy}\n")
 
         # Pen up G1 Z10
-        file.write(f"G1 Z10 F{feed_rate_z}\n") if config.feed_rate_z else None
+        file.write(f"G1 Z0 F{feed_rate_z}\n") if config.feed_rate_z else None
         
         # Footer or end commands can be added here
 
