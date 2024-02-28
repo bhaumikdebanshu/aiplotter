@@ -101,23 +101,22 @@ def entry():
 @app.route('/printer-test/', methods=['GET', 'POST'])
 def printer_test():
     # Open grbl serial port
-    if request.method == 'POST':
-        # s = serial.Serial(plotter_endpoint, plotter_baudrate)
-        # Wake up grbl
-        temp = "\r\n\r\n" 
-        plotter.write(temp.encode('ascii'))
-        time.sleep(2)
+    # s = serial.Serial(plotter_endpoint, plotter_baudrate)
+    # Wake up grbl
+    temp = "\r\n\r\n" 
+    plotter.write(temp.encode('ascii'))
+    time.sleep(2)
 
-        # Send home command
-        plotter.write("$H\n".encode('ascii'))
-        time.sleep(5)
+    # Send home command
+    plotter.write("$H\n".encode('ascii'))
+    time.sleep(5)
 
-        # Print log 
-        print(plotter.readline())
+    # Print log 
+    print(plotter.readline())
 
-        plotter.flushInput()
-        # plotter.close()
-        return redirect(url_for('entry'))
+    plotter.flushInput()
+    # plotter.close()
+    # return redirect(url_for('entry'))
     return render_template('printer-test.html')
 
 @app.route('/printing/')
