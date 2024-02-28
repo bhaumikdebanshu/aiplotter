@@ -205,6 +205,35 @@ th:nth-child(2){
     width : 500px;
 }
 
+.graph{
+  display: block;
+  background-color: #65A79650;
+  color: black;
+  margin-bottom: 10px;
+  min-width: fit-content;
+  padding: 8px;
+}
+
+.graph-container{
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    position: relative;
+    top: 50%;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.graph-answer-text{
+  font-size: 18px;
+    line-height: 36px;
+    border-bottom: 1px dashed var(--primary-color);
+    margin: 0;
+    margin-bottom: 20px;
+}
+
 
 
 /*--------------------------------*/

@@ -12,10 +12,6 @@ const prompts = [
   ];
 
 
-const randomIndex = Math.floor(Math.random() * prompts.length);
-const promptElement = document.getElementById("prompt-question");
-promptElement.innerHTML = prompts[randomIndex];
-
 
 function pressed(e) {
   if ( (window.event ? event.keyCode : e.which) == 13) { 
@@ -24,16 +20,47 @@ function pressed(e) {
       document.forms[0].submit();
       document.getElementById('answer-textarea').disabled= 'true';
   }
-
-
   
 }
 
-const heading = document.getElementById("modal-heading-text");
-setInterval(function() {
-  if (heading.innerHTML === "Drawing") {
-    heading.innerHTML = "Analyzing";
-  } else {
-    heading.innerHTML = "Drawing";
+
+if(window.location.pathname == '/printing/') {
+  // script body here
+  //console.log("inside results");
+  for(let i = 1; i <= 11; i++ ){
+    let tempDivName = "feeling-" + i.toString();
+    element = document.getElementById(tempDivName);
+    var l1 = Number(element.getAttribute("name"));
+    if(l1 == 0){
+      element.remove();
+    } else {
+      var tempWidth = l1*25;
+      var newWidth = tempWidth.toString();
+      var finalWidth = newWidth.concat("px");
+      element.style.width = finalWidth;
+    }
+    
   }
-}, 2000);
+  // element = document.getElementById("optimism");
+  // var l1 = Number(element.getAttribute("name"));
+  // var tempWidth = l1*50;
+  // var newWidth = tempWidth.toString();
+  // var finalWidth = newWidth.concat("px");
+  // element.style.width = finalWidth;
+
+}
+
+if(window.location.pathname == '/entry/') {
+  const randomIndex = Math.floor(Math.random() * prompts.length);
+  const promptElement = document.getElementById("prompt-question");
+  promptElement.innerHTML = prompts[randomIndex];
+
+  const heading = document.getElementById("modal-heading-text");
+  setInterval(function() {
+    if (heading.innerHTML === "Drawing") {
+      heading.innerHTML = "Analyzing";
+    } else {
+      heading.innerHTML = "Drawing";
+    }
+  }, 2000);
+}

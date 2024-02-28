@@ -170,6 +170,12 @@ def printing():
 
     return render_template('printing.html', responses = responses), {"Refresh" : "5; url= /entry"}
 
+@app.route('/results/')
+def results():
+    responses = Response.query.all()
+    return render_template('results.html', responses=responses)
+
+
 @app.route('/clear/')
 def clear_responses():
     try:
