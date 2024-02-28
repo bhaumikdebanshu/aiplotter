@@ -88,12 +88,12 @@ def entry():
         tempAnswer = request.form['response']
         emotion_percentages = artist.emotional_analysis(tempAnswer)
         print(emotion_percentages)
-        entry = Response(answerText=tempAnswer, emotions=emotion_percentages)
+        gcode_file = artist.gcode_wrapper(tempAnswer, 0)
+        entry = Response(answerText=tempAnswer, emotions=emotion_percentages, gcode_path=gcode_file)
+
         db.session.add(entry)
         db.session.commit()
 
-        # Generate GCode
-        artist.gcode_wrapper(tempAnswer, entry.id)
         return redirect(url_for('responses'))
     return render_template('entry.html')
 
@@ -103,9 +103,12 @@ def printing():
     # Open grbl serial port
     s = serial.Serial(plotter_endpoint, plotter_port)
 
+    # Open the last gcode file
+    gcode_file = Response.query.order_by(Response.id.desc()).first().gcode_path
+
     # Open g-code file
     # f = open('/static/test.gcode','r')
-    f = open(os.path.join(basedir, 'static/test.gcode'),'r')
+    f = open(os.path.join(basedir, gcode_file),'r')
 
     # Wake up grbl
     temp = "\r\n\r\n"

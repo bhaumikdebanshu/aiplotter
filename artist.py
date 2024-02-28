@@ -105,7 +105,7 @@ def is_plotter_ready():
         warn(f"Error checking plotter readiness: {e}")
         return False
 
-def generate_gcode(points, filename="output.gcode", feed_rate=1000):
+def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_rate_xy, feed_rate_z = config.feed_rate_z):
     """
     Generate a GCode file from a set of points.
 
@@ -120,7 +120,7 @@ def generate_gcode(points, filename="output.gcode", feed_rate=1000):
         file.write("G90 ; Absolute positioning\n")
         
         # Pen down G1 Z50
-        file.write("G1 Z50\n")
+        file.write(f"G1 Z50 F{feed_rate_z}\n")
         
         # Move to the starting point without drawing
         start_point = points[0]
@@ -130,10 +130,10 @@ def generate_gcode(points, filename="output.gcode", feed_rate=1000):
 
         # Draw to each subsequent point
         for x, y in points[1:]:
-            file.write(f"G1 X{x} Y{y} F{feed_rate}\n")
+            file.write(f"G1 X{x} Y{y} F{feed_rate_xy}\n")
 
         # Pen up G1 Z10
-        file.write("G1 Z10\n")
+        file.write(f"G1 Z10 F{feed_rate_z}\n")
         
         # Footer or end commands can be added here
 
@@ -147,5 +147,10 @@ def gcode_wrapper(prompt, i):
     y = y + y2
 
     points = list(zip(x, y))
+
+    filename = f"static/gcode/output_{i}.gcode"
     
-    generate_gcode(points, f"static/gcode/output_{i}.gcode")
+    generate_gcode(points, filename)
+
+    return filename
+
