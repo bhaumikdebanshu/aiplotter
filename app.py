@@ -94,12 +94,12 @@ def entry():
         db.session.add(entry)
         db.session.commit()
 
-        return redirect(url_for('responses'))
+        return redirect(url_for('printing'))
     return render_template('entry.html')
 
 @app.route('/printing/')
 def printing():
-    answers = Response.query.all()
+    responses = Response.query.all()
     # Open grbl serial port
     s = serial.Serial(plotter_endpoint, plotter_port)
 
@@ -135,7 +135,7 @@ def printing():
     f.close()
     s.close()  
 
-    return render_template('printing.html', answers = answers), {"Refresh" : "5; url= /entry"}
+    return render_template('printing.html', responses = responses), {"Refresh" : "5; url= /entry"}
 
 @app.route('/clear/')
 def clear_responses():
