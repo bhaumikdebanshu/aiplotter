@@ -16,7 +16,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
-plotter_port = config.plotter_port
+plotter_baudrate = config.plotter_baudrate
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
@@ -101,7 +101,7 @@ def entry():
 def printer_test():
     # Open grbl serial port
     if request.method == 'POST':
-        s = serial.Serial(plotter_endpoint, plotter_port)
+        s = serial.Serial(plotter_endpoint, plotter_baudrate)
         temp = "\r\n\r\n"
         s.write(temp.encode('ascii'))
         time.sleep(2)
@@ -114,7 +114,7 @@ def printer_test():
 def printing():
     responses = Response.query.all()
     # Open grbl serial port
-    s = serial.Serial(plotter_endpoint, plotter_port)
+    s = serial.Serial(plotter_endpoint, plotter_baudrate)
 
     # Open the last gcode file
     gcode_file = Response.query.order_by(Response.id.desc()).first().gcode_path
