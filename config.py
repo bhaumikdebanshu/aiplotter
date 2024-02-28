@@ -9,4 +9,4 @@ curve_amplitude         = 10.0                          # Amplitude of individua
 feed_rate_xy            = 1000                          # Feed rate in mm/min
 feed_rate_z             = 500                           # Feed rate in mm/min
 global_origin           = (0, 50)                       # Origin of the plotter in mm
-curve_spacing           = 10                            # Distance between curves in mm (y-axis)
+curve_spacing           = 100.0                         # Distance between curves in mm (y-axis)
