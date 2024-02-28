@@ -97,6 +97,19 @@ def entry():
         return redirect(url_for('printing'))
     return render_template('entry.html')
 
+@app.route('/printer-test/', methods=['GET', 'POST'])
+def printer_test():
+    # Open grbl serial port
+    if request.method == 'POST':
+        s = serial.Serial(plotter_endpoint, plotter_port)
+        temp = "\r\n\r\n"
+        s.write(temp.encode('ascii'))
+        time.sleep(2)
+        s.flushInput()
+        s.close()
+        return redirect(url_for('entry'))
+    return render_template('printer-test.html')
+
 @app.route('/printing/')
 def printing():
     responses = Response.query.all()
@@ -178,7 +191,7 @@ def export_responses():
 # Example usage (comment out if you prefer to run these from the command line or another script)
 if __name__ == "__main__":
     # Create or reset the database
-    reset_database()
+    reset_database() if config.db_reset else None
     # add_sample_data()
 
     # Create static/gcode directory if it doesn't exist
