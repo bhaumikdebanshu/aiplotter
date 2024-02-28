@@ -7,5 +7,5 @@ canvas_dimensions       = (2150, 724)                   # Width and height of th
 horizontal_resolution   = 1000                          # Number of steps in the horizontal direction (x-axis)
 curve_amplitude         = 5.0                           # Amplitude of individual curves in mm
 feed_rate_xy            = 300                           # Feed rate in mm/min
-feed_rate_z             = 50                            # Feed rate in mm/min
-global_origin           = (0, 0)                        # Origin of the plotter in mm
+feed_rate_z             = None                            # Feed rate in mm/min
+global_origin           = (0, 50)                        # Origin of the plotter in mm

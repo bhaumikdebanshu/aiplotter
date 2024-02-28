@@ -17,7 +17,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'ap
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
 plotter_baudrate = config.plotter_baudrate
-plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+
+try:
+    plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+except Exception as e:
+    warn(f"Error opening serial port: {e}")
+    plotter.close()  # Close the serial port if the app crashes
+
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
@@ -136,7 +142,7 @@ def printing():
     temp = "\r\n\r\n"
     plotter.write(temp.encode('ascii'))
     time.sleep(2)   # Wait for grbl to initialize 
-    plotter_endpoint.flushInput()  # Flush startup text in serial input
+    plotter.flushInput()  # Flush startup text in serial input
     print ('Sending gcode')
 
     # Stream g-code
@@ -208,4 +214,8 @@ if __name__ == "__main__":
         os.makedirs("static/gcode")
 
     # Run the app
-    app.run(debug=True)
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        warn(f"Error running the app: {e}")
+        plotter.close()  # Close the serial port if the app crashes
