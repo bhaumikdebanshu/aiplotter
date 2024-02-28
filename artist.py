@@ -34,10 +34,11 @@ def load_curve_data():
 
 def get_sine_wave(i, w=config.canvas_dimensions[0], h=config.canvas_dimensions[1]):
     try: 
-        x = np.linspace(0, w, w)
+        x = np.linspace(0, w, config.horizontal_resolution)
         period = np.interp(i, [0, h], [18, 36])
         # Create values for the y-axis
         y = np.sin((x + i) / period) * 5 + i
+        y.resize(config.horizontal_resolution)
         return x, y
     except Exception as e:
         warn(f"Error generating sine wave: {e}")
