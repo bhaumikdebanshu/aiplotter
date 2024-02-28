@@ -18,11 +18,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
 plotter_baudrate = config.plotter_baudrate
 
-try:
-    plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
-except Exception as e:
-    warn(f"Error opening serial port: {e}")
-    plotter.close()  # Close the serial port if the app crashes
+plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+
+# try:
+#     plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+# except Exception as e:
+#     warn(f"Error opening serial port: {e}")
+#     plotter.close()  # Close the serial port if the app crashes
 
 
 # Initialize SQLAlchemy
