@@ -120,7 +120,7 @@ def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_r
         file.write("G90 ; Absolute positioning\n")
         
         # Pen down G1 Z50
-        file.write(f"G1 Z50 F{feed_rate_z}\n")
+        file.write(f"G1 Z50 F{feed_rate_z}\n") if config.feed_rate_z else None
         
         # Move to the starting point without drawing
         start_point = points[0]
@@ -133,7 +133,7 @@ def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_r
             file.write(f"G1 X{x} Y{y} F{feed_rate_xy}\n")
 
         # Pen up G1 Z10
-        file.write(f"G1 Z10 F{feed_rate_z}\n")
+        file.write(f"G1 Z10 F{feed_rate_z}\n") if config.feed_rate_z else None
         
         # Footer or end commands can be added here
 

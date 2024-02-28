@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'ap
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
 plotter_baudrate = config.plotter_baudrate
+plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
@@ -101,21 +102,21 @@ def entry():
 def printer_test():
     # Open grbl serial port
     if request.method == 'POST':
-        s = serial.Serial(plotter_endpoint, plotter_baudrate)
+        # s = serial.Serial(plotter_endpoint, plotter_baudrate)
         # Wake up grbl
         temp = "\r\n\r\n" 
-        s.write(temp.encode('ascii'))
+        plotter.write(temp.encode('ascii'))
         time.sleep(2)
 
         # Send home command
-        s.write(b"$H\n".encode('ascii'))
+        plotter.write("$H\n".encode('ascii'))
         time.sleep(5)
 
         # Print log 
-        print(s.readline())
+        print(plotter.readline())
 
-        s.flushInput()
-        s.close()
+        plotter.flushInput()
+        # plotter.close()
         return redirect(url_for('entry'))
     return render_template('printer-test.html')
 
@@ -123,7 +124,7 @@ def printer_test():
 def printing():
     responses = Response.query.all()
     # Open grbl serial port
-    s = serial.Serial(plotter_endpoint, plotter_baudrate)
+    # s = serial.Serial(plotter_endpoint, plotter_baudrate)
 
     # Open the last gcode file
     gcode_file = Response.query.order_by(Response.id.desc()).first().gcode_path
@@ -134,9 +135,9 @@ def printing():
 
     # Wake up grbl
     temp = "\r\n\r\n"
-    s.write(temp.encode('ascii'))
+    plotter.write(temp.encode('ascii'))
     time.sleep(2)   # Wait for grbl to initialize 
-    s.flushInput()  # Flush startup text in serial input
+    plotter_endpoint.flushInput()  # Flush startup text in serial input
     print ('Sending gcode')
 
     # Stream g-code
@@ -146,7 +147,7 @@ def printing():
         if  (l.isspace()==False and len(l)>0) :
             print ('Sending: ' + l)
             temp2 = l + "\n"
-            s.write(temp2.encode('ascii')) # Send g-code block
+            plotter.write(temp2.encode('ascii')) # Send g-code block
             grbl_out = s.readline() # Wait for response with carriage return
             print (grbl_out.strip())
 
@@ -155,7 +156,7 @@ def printing():
 
     # Close file and serial port
     f.close()
-    s.close()  
+    # plotter.close()  
 
     return render_template('printing.html', responses = responses), {"Refresh" : "5; url= /entry"}
 
