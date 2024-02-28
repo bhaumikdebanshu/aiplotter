@@ -146,6 +146,10 @@ def gcode_wrapper(prompt, i):
     x2,y2 = get_sine_wave(i)
     y = y + y2
 
+    # Offset by global origin
+    x = [x + config.global_origin[0] for x in x]
+    y = [y + config.global_origin[1] for y in y]
+
     points = list(zip(x, y))
 
     filename = f"static/gcode/output_{i}.gcode"

@@ -148,7 +148,7 @@ def printing():
             print ('Sending: ' + l)
             temp2 = l + "\n"
             plotter.write(temp2.encode('ascii')) # Send g-code block
-            grbl_out = s.readline() # Wait for response with carriage return
+            grbl_out = plotter.readline() # Wait for response with carriage return
             print (grbl_out.strip())
 
     # Wait here until grbl is finished to close serial port and file.
