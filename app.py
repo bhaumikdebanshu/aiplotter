@@ -207,12 +207,6 @@ def export_responses():
         "Content-Disposition": "attachment; filename=responses.csv",
         "Content-Type": "text/csv",
     }
-
-@app.teardown_appcontext
-def close_plotter_connection(exception=None):
-    if plotter and plotter.isOpen():
-        print("Closing plotter connection.")
-        plotter.close()
         
 # Example usage (comment out if you prefer to run these from the command line or another script)
 if __name__ == "__main__":
