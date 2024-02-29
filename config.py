@@ -10,6 +10,7 @@ feed_rate_xy            = 1000                          # Feed rate in mm/min
 feed_rate_z             = 500                           # Feed rate in mm/min
 global_origin           = (0, 50)                       # Origin of the plotter in mm
 curve_spacing           = 100.0                         # Distance between curves in mm (y-axis)
+max_curves              = 100                           # Maximum number of curves to plot
 plotter_commands        = {
     "wake_up"           : "\r\n\r\n",
     "home"              : "$H\n",

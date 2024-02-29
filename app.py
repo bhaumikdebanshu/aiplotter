@@ -99,9 +99,15 @@ def entry():
         tempAnswer = request.form['response']
         emotion_percentages = artist.emotional_analysis(tempAnswer)
         print(emotion_percentages)
+
         # Get the last id from the database 
         last_id = db.session.query(Response).order_by(Response.id.desc()).first().id if db.session.query(Response).count() > 0 else -1
-        new_id = last_id + 1 
+        new_id = (last_id + 1) % config.max_curves
+
+        # If max_curves is reached, throw a alert on frontend
+        if new_id == 0:
+            return redirect(url_for('results'))
+
         gcode_file = artist.gcode_wrapper(tempAnswer, new_id)
         entry = Response(answerText=tempAnswer, emotions=emotion_percentages, gcode_path=gcode_file)
 
