@@ -33,7 +33,7 @@ if(window.location.pathname == '/printing/') {
     if(l1 == 0){
       element.remove();
     } else {
-      var tempWidth = l1*25;
+      var tempWidth = l1*20;
       var newWidth = tempWidth.toString();
       var finalWidth = newWidth.concat("px");
       element.style.width = finalWidth;
