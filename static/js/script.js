@@ -25,8 +25,7 @@ function pressed(e) {
 
 
 if(window.location.pathname == '/printing/') {
-  // script body here
-  //console.log("inside results");
+  
   for(let i = 1; i <= 11; i++ ){
     let tempDivName = "feeling-" + i.toString();
     element = document.getElementById(tempDivName);
@@ -38,15 +37,8 @@ if(window.location.pathname == '/printing/') {
       var newWidth = tempWidth.toString();
       var finalWidth = newWidth.concat("px");
       element.style.width = finalWidth;
-    }
-    
+    } 
   }
-  // element = document.getElementById("optimism");
-  // var l1 = Number(element.getAttribute("name"));
-  // var tempWidth = l1*50;
-  // var newWidth = tempWidth.toString();
-  // var finalWidth = newWidth.concat("px");
-  // element.style.width = finalWidth;
 
 }
 

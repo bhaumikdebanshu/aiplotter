@@ -186,6 +186,7 @@ textarea::placeholder{
     display: inline-block;
     border: 1px solid var(--primary-color);
     font-size: 16px;
+    background-color: white;
 }
 
 .table{
@@ -232,6 +233,13 @@ th:nth-child(2){
     border-bottom: 1px dashed var(--primary-color);
     margin: 0;
     margin-bottom: 20px;
+}
+
+.diag-btn-wrapper{
+  display: block;
+  margin-left: auto;
+  width: fit-content;
+  margin-right: auto;
 }
 
 

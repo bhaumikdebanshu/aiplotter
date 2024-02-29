@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
 plotter_baudrate = config.plotter_baudrate
 
-plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+# plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
 
 # try:
 #     plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
@@ -174,6 +174,31 @@ def printing():
 def results():
     responses = Response.query.all()
     return render_template('results.html', responses=responses)
+
+@app.route('/diag/')
+def diag():
+    print("Be careful what you do here")
+    return render_template('diag.html')
+
+@app.route('/plotter-connect/')
+def plotterConnect():
+    print("Plotter Connected")
+    return render_template('diag.html')
+
+@app.route('/plotter-home/')
+def returnToHome():
+    print("Seeking (0,0)")
+    return render_template('diag.html')
+
+@app.route('/change-paper-pen/')
+def changePaperPen():
+    print("Change Paper or Pen")
+    return render_template('diag.html')
+
+@app.route('/disconnect-plotter/')
+def disconnectPlotter():
+    print("Disconnect Plotter")
+    return render_template('diag.html')
 
 
 @app.route('/clear/')
