@@ -185,6 +185,7 @@ def diag():
 @app.route('/plotter-connect/')
 def plotterConnect():
     print("Plotter Connected")
+    global plotter
     try: 
         if plotter:
             if plotter.is_open:
