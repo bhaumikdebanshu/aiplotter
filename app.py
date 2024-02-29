@@ -224,6 +224,11 @@ def changePaperPen():
 @app.route('/disconnect-plotter/')
 def disconnectPlotter():
     print("Disconnect Plotter")
+    global plotter
+    try:
+        plotter.close()
+    except Exception as e:
+        warn(f"Error closing serial port: {e}")
     return render_template('diag.html')
 
 
