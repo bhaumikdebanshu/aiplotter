@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <h1 class="prompt-entry">Diagnostics Page</h1>
+    <div class="diag-btn-wrapper">
+        <button id="plotter-connect" class="table-btns" onclick="connectPlotter()">Connect to Plotter</button>
+        <button id="callibrate" class="table-btns" onclick="returnToHome()">Callibrate Plotter</button>
+        <button id="change-paper-pen" class="table-btns" onclick="changePaperPen()">Change Paper/Pen</button>
+        <button id="plotter-disconnect" class="table-btns" onclick="disconnectPlotter()">Disconnect Plotter</button>
+    </div>
+
+    <div id="modal-container" class = "two">
+        <div id="modal-background-id" class="modal-background">
+          <div class="modal">
+            <div class="loader"></div>
+            <h2 id="modal-heading-text" class="modal-heading">Callibrating Plotter</h2>
+            <p class="modal-text">Please wait. It usually takes 5 minutes to callibrate. Please don't move away form this page otherwise it might be fatal to the plotter</p>
+          </div>
+        </div>
+    </div>
+    
+    
+    <script>
+    
+        document.getElementById("callibrate").disabled = true;
+        document.getElementById("callibrate").style.opacity = 0.5;
+        document.getElementById("change-paper-pen").disabled = true;
+        document.getElementById("change-paper-pen").style.opacity = 0.5;
+        document.getElementById("plotter-disconnect").disabled = true;
+        document.getElementById("plotter-disconnect").style.opacity = 0.5;
+
+        function connectPlotter() {
+            fetch('/plotter-connect')
+            console.log("Connecting to Plotter");
+            document.getElementById("plotter-connect").disabled = true;
+            document.getElementById("plotter-connect").style.backgroundColor = "#65A796";
+            document.getElementById("plotter-connect").style.color = "#ffffff";
+            document.getElementById("plotter-connect").innerHTML = "Plotter Connected";
+            document.getElementById("callibrate").disabled = false;
+            document.getElementById("callibrate").style.opacity = 1;
+            document.getElementById("change-paper-pen").disabled = true;
+            document.getElementById("change-paper-pen").style.opacity = 0.5;
+            document.getElementById("plotter-disconnect").disabled = false;
+            document.getElementById("plotter-disconnect").style.opacity = 1;
+                
+        }
+        function returnToHome() {
+            fetch('/plotter-home')
+            console.log("Callibrate Plotter");
+            document.getElementById("plotter-connect").disabled = true;
+            document.getElementById("plotter-connect").style.backgroundColor = "#65A796";
+            document.getElementById("callibrate").disabled = false;
+            document.getElementById("callibrate").style.opacity = 1;
+            document.getElementById("change-paper-pen").disabled = false;
+            document.getElementById("change-paper-pen").style.opacity = 1;
+            document.getElementById("plotter-disconnect").disabled = false;
+            document.getElementById("plotter-disconnect").style.opacity = 1;
+
+            document.getElementById('modal-background-id').style.display = "block";
+            document.getElementById("modal-container").style.display = "block";
+
+            setTimeout(function() {    
+                document.getElementById('modal-background-id').style.display = "none";
+                document.getElementById("modal-container").style.display = "none";
+            }, 2000);       
+        }
+        
+        function changePaperPen() {
+            fetch('/change-paper-pen')
+            console.log("Change Paper Pen");
+                
+        }
+        function disconnectPlotter() {
+            fetch('/disconnect-plotter')
+            isPrinterConnected = 0;
+            console.log("Disconnect");
+            document.getElementById("plotter-connect").disabled = false;
+            document.getElementById("plotter-connect").style.backgroundColor = "#ffffff";
+            document.getElementById("plotter-connect").style.color = "#65A796";
+            document.getElementById("plotter-connect").innerHTML = "Connect Plotter";
+            document.getElementById("callibrate").disabled = true;
+            document.getElementById("callibrate").style.opacity = 0.5;
+            document.getElementById("change-paper-pen").disabled = true;
+            document.getElementById("change-paper-pen").style.opacity = 0.5;
+            document.getElementById("plotter-disconnect").disabled = true;
+            document.getElementById("plotter-disconnect").style.opacity = 0.5;
+                
+        }
+
+    </script>
+{% endblock %}
