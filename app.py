@@ -87,15 +87,6 @@ def reset_database():
     except Exception as e:
         warn(f"Error resetting database: {e}")
 
-def send_command_to_plotter(command, sleep=2):
-    """Send a command to the plotter."""
-    try:
-        plotter.write(command.encode('ascii'))
-        time.sleep(sleep)
-        return plotter.readline()
-    except Exception as e:
-        warn(f"Error sending command to plotter: {e}")
-
 # Web Routes
 @app.route('/')
 def responses():
@@ -194,14 +185,26 @@ def diag():
 @app.route('/plotter-connect/')
 def plotterConnect():
     print("Plotter Connected")
+    try: 
+        if plotter:
+            if plotter.is_open:
+                plotter.close() 
+                return render_template('diag.html')
+        
+        plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
+
+    except Exception as e:
+        warn(f"Error opening serial port: {e}")
+        plotter.close()
+
     return render_template('diag.html')
 
 @app.route('/plotter-home/')
 def returnToHome():
     print("Seeking (0,0)")
 
-    _ = send_command_to_plotter(config.plotter_commands["wake_up"], 2)
-    home_status = send_command_to_plotter(config.plotter_commands["home"], 5)
+    _ = artist.do(plotter, config.plotter_commands["wake_up"], 2)
+    home_status = artist.do(plotter, config.plotter_commands["home"], 5)
     print(home_status)
     plotter.flushInput()
     
@@ -211,7 +214,7 @@ def returnToHome():
 def changePaperPen():
     print("Change Paper or Pen")
 
-    move_to_end_status = send_command_to_plotter(config.plotter_commands["endpoint"], 5)
+    move_to_end_status = artist.do(plotter, config.plotter_commands["endpoint"], 5)
     print(move_to_end_status)
     plotter.flushInput()
 

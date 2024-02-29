@@ -82,14 +82,12 @@ def get_curve(emotions, curveDict, w=config.canvas_dimensions[0], h=config.canva
 
     return X, Y
 
-def is_plotter_connected():
-    try:
-        s = serial.Serial(config.plotter_endpoint, config.plotter_baudrate)
-        s.close()
-        return True
-    except Exception as e:
-        warn(f"Error checking plotter connection: {e}")
-        return False
+# def is_plotter_connected(plotter):
+#     try: 
+#         return plotter.is_open
+#     except Exception as e:
+#         warn(f"Error checking plotter connection: {e}")
+#         return False
 
 def is_plotter_ready():
     try:
@@ -104,6 +102,15 @@ def is_plotter_ready():
     except Exception as e:
         warn(f"Error checking plotter readiness: {e}")
         return False
+
+def do(plotter, command, sleep=2):
+    """Send a command to the plotter."""
+    try:
+        plotter.write(command.encode('ascii'))
+        time.sleep(sleep)
+        return plotter.readline()
+    except Exception as e:
+        warn(f"Error sending command to plotter: {e}")
 
 def generate_gcode(points, filename="output.gcode", feed_rate_xy = config.feed_rate_xy, feed_rate_z = config.feed_rate_z):
     """
