@@ -10,3 +10,8 @@ feed_rate_xy            = 1000                          # Feed rate in mm/min
 feed_rate_z             = 500                           # Feed rate in mm/min
 global_origin           = (0, 50)                       # Origin of the plotter in mm
 curve_spacing           = 100.0                         # Distance between curves in mm (y-axis)
+plotter_commands        = {
+    "wake_up": "\r\n\r\n",
+    "home": "$H\n",
+    "endpoint": f"G0 X{canvas_dimensions[0]} Y{canvas_dimensions[1]} F{feed_rate_xy}\n"
+}

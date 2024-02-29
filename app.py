@@ -18,6 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 plotter_endpoint = config.plotter_endpoint
 plotter_baudrate = config.plotter_baudrate
 
+plotter = None 
+
 # plotter = serial.Serial(plotter_endpoint, plotter_baudrate)
 
 # try:
@@ -84,6 +86,15 @@ def reset_database():
         print("Database has been reset.")
     except Exception as e:
         warn(f"Error resetting database: {e}")
+
+def send_command_to_plotter(command, sleep=2):
+    """Send a command to the plotter."""
+    try:
+        plotter.write(command.encode('ascii'))
+        time.sleep(sleep)
+        return plotter.readline()
+    except Exception as e:
+        warn(f"Error sending command to plotter: {e}")
 
 # Web Routes
 @app.route('/')
@@ -188,11 +199,22 @@ def plotterConnect():
 @app.route('/plotter-home/')
 def returnToHome():
     print("Seeking (0,0)")
+
+    _ = send_command_to_plotter(config.plotter_commands["wake_up"], 2)
+    home_status = send_command_to_plotter(config.plotter_commands["home"], 5)
+    print(home_status)
+    plotter.flushInput()
+    
     return render_template('diag.html')
 
 @app.route('/change-paper-pen/')
 def changePaperPen():
     print("Change Paper or Pen")
+
+    move_to_end_status = send_command_to_plotter(config.plotter_commands["endpoint"], 5)
+    print(move_to_end_status)
+    plotter.flushInput()
+
     return render_template('diag.html')
 
 @app.route('/disconnect-plotter/')
